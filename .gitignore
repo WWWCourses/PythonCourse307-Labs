@@ -1,0 +1,23 @@
+# ignore all dot files
+**/.*
+
+# except
+!.gitmodules
+!.gitignore
+
+# virtualenv
+.venv
+venv/
+ENV/
+
+#custom hiden files
+**/_*
+
+#other
+nohup.out
+__*
+___*
+*.ipynb_checkpoints
+.docs/**
+
+TODO
