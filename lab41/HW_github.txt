@@ -1,0 +1,3 @@
+1. Създайте ваш GitHub акаунт, който ще ползвате по време на курса и изпрате линка към него на: ivawebcourses@gmail.com
+
+2. Направете GitHub репозитори с име PythonCourseHW и качете в него файловете с решенията на задачите за домашно. Може да следвате иснтрукциите тук:https://docs.github.com/en/repositories/working-with-files/managing-files/adding-a-file-to-a-repository#adding-a-file-to-a-repository-on-github като пропуснете точка 5.
