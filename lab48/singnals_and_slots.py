@@ -12,11 +12,24 @@ class MainWindow(qtw.QWidget):
 		self.setWindowTitle('Signals And Slots')
 		self.setGeometry(500, 300, 800, 600)
 
+
 		# initilize UI
-		btn_close = qtw.QPushButton('Cl&ose', parent=self)
-		print(btn_close)
+		self.l_user_name = qtw.QLineEdit()
+		self.btn_close = qtw.QPushButton('&Close')
+
+		main_layout = qtw.QHBoxLayout(self)
+		main_layout.addWidget(self.l_user_name, 2)
+		main_layout.addWidget(self.btn_close, 1)
+
+		# connect signals with slots:
+		self.btn_close.clicked.connect(self.close)
 
 		self.show();
+
+	def on_close(self):
+		# connect btn's click signal with close
+		pass
+
 
 
 
