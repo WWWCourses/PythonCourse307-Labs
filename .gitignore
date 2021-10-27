@@ -4,6 +4,7 @@
 # except
 !.gitmodules
 !.gitignore
+!.vscode
 
 # virtualenv
 .venv

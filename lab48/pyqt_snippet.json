@@ -1,0 +1,65 @@
+{
+	// Possible variables are:
+	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders.
+	// Placeholders with the same ids are connected.
+	// Example:
+	// "Print to console": {
+	// 	"scope": "javascript,typescript",
+	// 	"prefix": "log",
+	// 	"body": [
+	// 		"console.log('$1');",
+	// 		"$2"
+	// 	],
+	// 	"description": "Log output to console"
+	// }
+	"PyQt5_Template":{
+		"scope": "python",
+		"prefix": "pyqt_template_snippet",
+		"body": [
+			"import sys",
+			"from PyQt5 import QtWidgets as qtw",
+			"from PyQt5 import QtCore as qtc",
+			"from PyQt5 import QtGui as qtg",
+			"\n",
+			"class MainWindow(qtw.${1:QWidget}):\n",
+				"\tdef __init__(self ${2:, ${3:*args, **kwargs}}):",
+					"\t\tsuper().__init__(${3})\n",
+					"\t\t${4:self.setWindowTitle('$5')}",
+					"\t\t$0",
+					"\t\tself.show();",
+			"\n\n",
+			"if __name__ == '__main__':",
+				"\tapp = qtw.QApplication(sys.argv);\n",
+				"\twindow = MainWindow()\n",
+				"\tsys.exit(app.exec_())\n",
+		]
+	},
+	"ifmain":{
+		"scope": "python",
+		"prefix": "ifname",
+		"body":[
+			"if __name__ == \"__main__\":",
+			"\t${1:pass}"
+		]
+	},
+	"codePython": {
+		"scope": "html",
+		"prefix": "codePython",
+		"body": [
+			"<pre><code rel=\"Python\" class=\"python\">",
+			"\t$1",
+			"</code></pre>"
+		],
+		"description": ""
+	},
+	"codeOutput": {
+		"scope": "html",
+		"prefix": "codeOutput",
+		"body": [
+			"<pre><code rel=\"Output\" class=\"bash\">",
+			"\t$1",
+			"</code></pre>"
+		],
+		"description": ""
+	}
+}
