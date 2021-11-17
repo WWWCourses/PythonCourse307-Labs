@@ -1,0 +1,30 @@
+QTableWidget {
+	font-size: 30px;
+	font-family: "Courier New";
+	margin: 10px;
+	border: 20px outset #00c4cf;
+
+	/* style selection */
+	/* selection-background-color: #99F;
+	selection-color: #333; */
+}
+QTableWidget::item{
+	padding: 10px;
+	margin: 5px;
+	/* height: 30px; */
+	border: 2px dotted #00c4cf;
+}
+
+QTableWidget::item::selected{
+	background-color: #00c4cf;
+}
+
+/* QHeaderView::section { */
+QHeaderView{
+	font-weight: bold;
+	background-color: #668;
+	color: #EEE;
+	/* padding: 3px; */
+}
+
+
