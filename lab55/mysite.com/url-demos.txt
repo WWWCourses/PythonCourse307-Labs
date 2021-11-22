@@ -1,0 +1,8 @@
+https://127.0.0.1:8080/
+https://bnt.bg/
+https://bnt.bg
+https://bnt.bg/news/nie-prez-pogleda-na-drugite-balgarite-do-ix-vek-v-iztochnite-izvori-300427news.html
+https://bnt.bg/f/news/b/298/698e2d4a1259fce4386000a8b1f83d50.jpeg
+
+http://127.0.0.1:8080/back-end/registration.py
+
