@@ -1,0 +1,5 @@
+USERS:
+	id| user_name| pass|
+	1 | pasho    | 1234|
+	2 | ada      | 1234
+
