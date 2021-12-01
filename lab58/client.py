@@ -1,4 +1,5 @@
 import socket
+import threading
 
 PORT = 5050
 SERVER_IP = '192.168.100.38'
@@ -7,17 +8,34 @@ FORMAT = 'utf-8'
 DISCONNECT_MESSAGE = 'end'
 BUFF_SIZE=4096
 
-# create an INET (i.e. IPv4), STREAMing (i.e. TCP) socket:
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+def connect_to_server():
+	# create an INET (i.e. IPv4), STREAMing (i.e. TCP) socket:
+	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-# reuse address (optional, only for test purposes)
-s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+	# reuse address (optional, only for test purposes)
+	s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
-# bind the socket to the host
-s.connect((SERVER_IP, PORT))
+	# bind the socket to the host
+	s.connect((SERVER_IP, PORT))
+
+	return s
+
+def receive_message(s):
+	while True:
+		try:
+			msg_bytes = s.recv(BUFF_SIZE)
+			msg = msg_bytes.decode(FORMAT)
+			if msg == "":
+				print("Server is down!")
+				exit(0)
+			print(f'\n\t{msg}')
+		except Exception as e:
+			print(f'Error: {e}')
+			s.close()
+			break
 
 
-def send(msg):
+def send_message(s,msg):
 	message = msg.encode(FORMAT)
 	msg_length = len(message)
 	send_length = str(msg_length).encode(FORMAT)
@@ -28,11 +46,20 @@ def send(msg):
 	s.send(send_length)
 	s.send(message)
 
-	print(s.recv(BUFF_SIZE).decode(FORMAT))
+	# print(s.recv(BUFF_SIZE).decode(FORMAT))
 
-while True:
-	msg = input("Enter a message:")
-	if msg == '':
-		send(DISCONNECT_MESSAGE)
-	else:
-		send(msg)
+
+if __name__ == '__main__':
+	s = connect_to_server()
+
+	# start thread for receiving messages
+	tr = threading.Thread(target=receive_message, args=(s,),daemon=True)
+	tr.start()
+
+	while True:
+		msg = input("Enter a message:")
+		if msg == '':
+			send_message(s,DISCONNECT_MESSAGE)
+		else:
+			send_message(s,msg)
+

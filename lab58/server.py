@@ -8,21 +8,6 @@ FORMAT = 'utf-8'
 DISCONNECT_MESSAGE = 'end'
 BUFF_SIZE=4096
 
-
-# create an INET (i.e. IPv4), STREAMing (i.e. TCP) socket:
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
-# reuse address (optional, only for test purposes)
-s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-
-# bind the socket to the host
-s.bind((SERVER_IP, PORT))
-
-s.listen()
-print(f"Server is listening on {SERVER_IP}:{PORT}")
-
-clients = []
-
 def handle_client(conn, addr):
 	print(f"[NEW CONNECTION] {addr} connected.")
 	connected = True
@@ -36,25 +21,48 @@ def handle_client(conn, addr):
 
 			if msg == DISCONNECT_MESSAGE:
 				connected = False
+				conn.close()
 
-			print(f'Msg received: {msg}')
+			# print(f'Msg received: {msg}')
 			print(f"[{addr}] {msg}")
 
 			# TASK: send message to all other clients, except current
-
-			# conn.send("Msg received".encode(FORMAT))
+			for client in clients:
+				if client != conn:
+					tid = threading.currentThread().name
+					client.send(f'Client {tid} says: {msg} '.encode(FORMAT))
 
 	conn.close()
 
-while True:
-	conn, addr = s.accept()
+def server_start():
+	# create an INET (i.e. IPv4), STREAMing (i.e. TCP) socket:
+	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-	# TASK: add conn to clients list
+	# reuse address (optional, only for test purposes)
+	s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
-	print(f"[ACTIVE CONNECTIONS] {threading.activeCount() - 1}")
+	# bind the socket to the host
+	s.bind((SERVER_IP, PORT))
 
-	tr = threading.Thread(target=handle_client, args=(conn, addr), daemon=True)
-	tr.start()
+	s.listen()
+	print(f"Server is listening on {SERVER_IP}:{PORT}")
+
+	while True:
+		conn, addr = s.accept()
+
+		# add conn to clients list
+		clients.append(conn)
+
+		# handle client in separate thread
+		tr = threading.Thread(target=handle_client, args=(conn, addr), daemon=True)
+		tr.start()
+
+		print(f"[ACTIVE CONNECTIONS] {threading.activeCount() - 1}")
+
+if __name__ == '__main__':
+	clients = []
+
+	server_start()
 
 
 
